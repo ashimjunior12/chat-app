@@ -11,11 +11,19 @@ const statsRoutes = require('./routes/statsRoutes')
 const app = express();
 const server = http.createServer(app);
 app.use(express.json())
+
+const allowedOrigins = [
+  'http://localhost:5173/',
+  'https://chat-app-client-bice-one.vercel.app',
+];
+
 const io = new Server(server, {
- cors:{
-  origin: '*'
- }
-})
+  cors: {
+    origin: 'allowedOrigins',
+    methods: ['GET', 'POST'],
+    credentials: true,
+  },
+});
 app.use(cors())
 app.use('/api/users', userRoutes);
 app.use('/api/stats', statsRoutes)
